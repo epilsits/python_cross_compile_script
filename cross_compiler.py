@@ -1376,7 +1376,7 @@ class CrossCompileScript:
 		if 'patches' in data:
 			if data['patches'] != None:
 				for p in data['patches']:
-					self.apply_patch(p[0],p[1],False,self.getValueByIntOrNone(p,2))
+					self.apply_patch(p,False,self.getValueByIntOrNone(p,2))
 
 		if not self.anyFileStartsWith('already_ran_make'):
 			if 'run_post_patch' in data:
@@ -1398,7 +1398,7 @@ class CrossCompileScript:
 		if 'patches_post_configure' in data:
 			if data['patches_post_configure'] != None:
 				for p in data['patches_post_configure']:
-					self.apply_patch(p[0],p[1],True)
+					self.apply_patch(p,True)
 
 		if 'is_cmake' in data:
 			if data['is_cmake'] == True:
@@ -1545,7 +1545,12 @@ class CrossCompileScript:
 			self.touch(touch_name)
 			self.logger.info("Finsihed configuring '{0}'".format( name ))
 
-	def apply_patch(self,url,type = "-p1", postConf = False, folderToPatchIn = None): #p1 for github, p0 for idk
+	def apply_patch(self,patch, postConf = False, folderToPatchIn = None): #p1 for github, p0 for idk
+		url = patch[0]
+		type = patch[1]
+		patchCommand = 'git apply'
+		if len(patch) > 2 and patch[2] == 'patch':
+			patchCommand = 'patch'
 
 		originalFolder = os.getcwd()
 
@@ -1573,7 +1578,7 @@ class CrossCompileScript:
 
 		if not os.path.isfile(patch_touch_name):
 			self.logger.info("Patching source using: '{0}'".format( fileName ))
-			self.run_process('git apply {2}-{0} < "{1}"'.format(type, fileName, ignore ),ignoreErr,exitOn)
+			self.run_process('{3} {2}-{0} < "{1}"'.format(type, fileName, ignore, patchCommand),ignoreErr,exitOn)
 			self.touch(patch_touch_name)
 			if not postConf:
 				self.removeAlreadyFiles()
@@ -4082,8 +4087,8 @@ DEPENDS = {
 		'configure_options': '--host={target_host} --prefix={target_prefix} --disable-shared --enable-static --disable-dvb --disable-bktr --disable-nls --disable-proxy --without-doxygen',
 		'make_subdir' : 'src',
 		'patches': (
-		    ('https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches/zvbi-0.2.35_win32.patch', 'p0'),
-			('https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches/zvbi-0.2.35_ioctl.patch', 'p0'),
+		    ('https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches/zvbi-0.2.35_win32.patch', 'p0', 'patch'),
+			('https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/patches/zvbi-0.2.35_ioctl.patch', 'p0', 'patch'),
 		),
 		#sed -i.bak 's/-lzvbi *$/-lzvbi -lpng/' "$PKG_CONFIG_PATH/zvbi.pc"
 		'run_post_make' : (
