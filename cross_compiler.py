@@ -3785,7 +3785,7 @@ DEPENDS = {
 	'libxvid' : {
 		'repo_type' : 'archive',
 		'url' : 'http://downloads.xvid.org/downloads/xvidcore-1.3.4.tar.gz',
-		# 'folder_name' : 'xvidcore',
+		'folder_name' : 'xvidcore',
 		'rename_folder' : 'xvidcore-1.3.4',
 		'source_subfolder': 'build/generic',
 		'configure_options': '--host={target_host} --prefix={target_prefix}',
@@ -3957,7 +3957,9 @@ DEPENDS = {
 	},
 	'librubberband' : {
 		'repo_type' : 'archive',
-		'url' : 'http://code.breakfastquay.com/attachments/download/34/rubberband-1.8.1.tar.bz2',
+		'url': 'https://bitbucket.org/breakfastquay/rubberband/get/v1.8.1.tar.bz2',
+		'folder_name': 'breakfastquay-rubberband-d4911a276d96',
+		'rename_folder': 'rubberband-1.8.1',
 		'download_header' : ( # some packages apparently do not come with specific headers.. like this one. so this function exists... files listed here will be downloaded into the {prefix}/include folder
 			'https://raw.githubusercontent.com/DeadSix27/python_cross_compile_script/master/additional_headers/ladspa.h',
 		),
