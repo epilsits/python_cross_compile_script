@@ -63,7 +63,7 @@ _WORKDIR           = 'workdir' # default: workdir
 _MINGW_DIR         = 'toolchain' # default: toolchain
 _MINGW_COMMIT      = '409500c17cc7a5e10ad3e305dfeda4a3c941853b'
 _BITNESS           = ( 64, ) # Only 64 bit is supported (32 bit is not even implemented, no one should need this today...)
-_ORIG_CFLAGS       = '-march=sandybridge -O3' # I've had issues recently with the binaries not working on older systems despite using a old march, so stick to sandybridge for now, for others see: https://gcc.gnu.org/onlinedocs/gcc-6.3.0/gcc/x86-Options.html#x86-Options
+_ORIG_CFLAGS       = '-O3' # I've had issues recently with the binaries not working on older systems despite using a old march, so stick to sandybridge for now, for others see: https://gcc.gnu.org/onlinedocs/gcc-6.3.0/gcc/x86-Options.html#x86-Options
 
 
 # Remove a product, re-order them or add your own, do as you like, the default order only builds mpv & ffmpeg (shared & static)
